@@ -53,6 +53,76 @@ dotnet ef dbcontext scaffold "YourConnectionString" Microsoft.EntityFrameworkCor
 可以繫結陣列或集合物件
 不要拿 Entity Model 來繫結資料 (標記有火焰emoji,表示重要警告)
 善用 prefix 去繫結複雜的表單資料
+在開發應用程式時，繫結資料是重要的一部分。根據您的需求，這裡是一些詳細的建議和最佳實踐：
+
+## 繫結屬性和物件
+
+1. **屬性繫結**：
+    - 屬性（Attributes）可以在多種情況下進行繫結，無論是單值屬性還是複雜物件屬性。
+    - 可以使用元資料（Metadata）來提供繫結所需的額外資訊，這樣可以更靈活地處理不同類型的資料繫結[19](19)[2](2)。
+
+2. **繫結陣列或集合**：
+    - 可以將陣列或集合（例如 `List`, `Dictionary` 等）與資料繫結控制項繫結，這樣可以輕鬆地在介面中顯示或操控這些資料。
+    - 如果集合是一般物件集合，則不需要特殊處理；但如果集合包含群組物件，則需要特定的處理邏輯[5](5)[9](9)。
+
+## 使用 DTO 繫結資料
+
+1. **避免使用 Entity Model**：
+    - 不建議直接使用 Entity Model 來繫結資料，因為這樣做會導致過多的細節被曝露，同時增加了潛在的安全風險[7](7)[11](11)。
+    - Entity Model 通常包含資料庫層的詳細結構，直接繫結可能會影響應用程式的封裝性和安全性。
+
+2. **使用 DTO（Data Transfer Object）**：
+    - DTO 是一種專門用來傳遞資料的物件，僅包含資料而沒有業務邏輯[7](7)。
+    - 使用 DTO 可以有效減少資料傳輸中的不必要資訊，並且可以根據需求進行定制，僅包含需要的屬性[3](3)[11](11)。
+
+## 元資料（Metadata）在繫結中的應用
+
+1. **使用元資料指定繫結行為**：
+    - 元資料（Metadata）可以包括類型資訊、格式資訊等，這些資訊可以用來指示繫結行為。
+    - 可以使用 `ModelBinderAttribute` 來指定繫結的具體實例或類型[6](6)。
+
+2. **在 Component 和 Service 中應用元資料**：
+    - 例如，在 Angular 中，Component 的元資料決定了它與模板的關聯，以及如何在應用程式中呈現[4](4)。
+    - 同樣，Service 中的元資料提供 Angular 所需的資訊，使其能夠通過依賴注入（Dependency Injection）將 Service 注入到其他 Component 中[4](4)。
+
+## 總結
+
+- **不要直接使用 Entity Model**：使用 DTO 來繫結資料，這樣可以保護資料的封裝性和安全性。
+- **利用元資料**：通過元資料提供的額外資訊來精確控制繫結行為，提高靈活性和安全性。
+- **繫結集合和陣列**：確保正確處理集合和陣列，以保證應用程式的正確運行。
+
+這些策略將有助於提高您的應用程式在資料繫結方面的健壯性和靈活性。如果有更多特定需求或問題，請隨時告知！
+[1] https://www.powershellgallery.com/packages/DosInstallUtilities/1.0.157.0/Content/assemblies%5CMSTest.TestFramework.1.2.0%5Clib%5Cnet45%5Czh-Hant%5CMicrosoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+[2] https://learn.microsoft.com/zh-tw/aspnet/core/mvc/advanced/custom-model-binding?view=aspnetcore-8.0
+[3] https://www.slideshare.net/slideshow/c35-55576724/55576724
+[4] https://www.stevenchang.tw/blog/2019/08/04/Angular_component_basic_note
+[5] https://learn.microsoft.com/zh-tw/windows/apps/develop/data-binding/data-binding-in-depth
+[6] https://learn.microsoft.com/zh-tw/aspnet/core/mvc/models/model-binding?view=aspnetcore-8.0
+[7] https://kevintsengtw.blogspot.com/2012/12/aspnet-mvc-part5-service.html
+[8] https://docs.aws.amazon.com/zh_tw/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp.html
+[9] http://www.wnvs.cyc.edu.tw/ebook/VB6_1/7.htm
+[10] https://blogs.uuu.com.tw/Articles/post/2013/12/04/ASPNET-Web-Forms%E6%A8%A1%E5%9E%8B%E7%B9%AB%E7%B5%90.aspx
+[11] https://www.huanlintalk.com/2015/07/designing-layered-application-4-cqrs.html
+[12] http://vito-note.blogspot.com/2012/10/simple.html
+[13] https://medium.com/tims-home/008js-%E4%BA%8C-%E7%89%A9%E4%BB%B6-%E9%99%A3%E5%88%97%E5%8F%8A%E5%9E%8B%E5%88%A5%E7%9A%84%E5%88%A4%E6%96%B7-789700fea66d
+[14] https://www.youtube.com/watch?v=4JMmUCVu5mM
+[15] https://igouist.github.io/tags/csharp/page/3/
+[16] https://help.webex.com/zh-tw/article/kjazkg/Configure-single-sign-on-in-Control-Hub-with-Shibboleth
+[17] https://experienceleague.adobe.com/zh-hant/docs/experience-manager-65/content/implementing/developing/personlization/contexthub-api
+[18] https://blog.miniasp.com/post/2016/03/14/ASPNET-MVC-Developer-Note-Part-28-Understanding-ModelState
+[19] https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-8.0
+[20] https://learn.microsoft.com/zh-tw/xamarin/android/platform/binding-java-library/customizing-bindings/java-bindings-metadata
+[21] https://hackmd.io/@Heidi-Liu/typescript
+[22] https://igouist.github.io/post/2019/12/aspnet-connect-db/
+[23] https://hackmd.io/@ycLiang/rkKMP3gxK/%2F%40ycLiang%2FBJDq47Atu
+[24] https://yucj.gitbooks.io/ecmascript-6/content/docs/array.html
+[25] https://igouist.github.io/tags/entity-framework/
+[26] https://docs.vmware.com/tw/VMware-vSphere/8.0/vsphere-storage/GUID-6F991DB5-9AF0-4F9F-809C-B82D3EED7DAF.html
+[27] https://learn.microsoft.com/zh-tw/office/vba/language/concepts/getting-started/understanding-objects-properties-methods-and-events
+[28] https://learn.microsoft.com/zh-tw/dotnet/framework/wcf/extending/how-to-configure-a-custom-ws-metadata-exchange-binding
+[29] https://developer.android.com/codelabs/basic-android-kotlin-collections?hl=zh-tw
+[30] https://documentation.sas.com/doc/zh-TW/basewn/9.4/p1sqkx19bijru4n14lnjjcel1d8w.htm
+
 
 幻燈片底部有一個代碼示例,展示了如何使用前綴(prefix)綁定:
 ```csharp
